@@ -232,8 +232,8 @@ var TRIP = {
   ],
   groups: [
     { id:'g1', label:'비행기 1',
-      out:{ date:'2026-11-13', from:'ICN', fromCity:'인천', to:'NRT', toCity:'나리타', dep:'09:00', arr:'11:20' },
-      back:{ date:'2026-11-17', from:'NRT', fromCity:'나리타', to:'ICN', toCity:'인천', dep:'19:35', arr:'22:25' } },
+      out:{ date:'2026-11-13', from:'ICN', fromCity:'인천', to:'NRT', toCity:'나리타', dep:'09:00', arr:'11:20', air:'아시아나', no:'OZ102' },
+      back:{ date:'2026-11-17', from:'NRT', fromCity:'나리타', to:'ICN', toCity:'인천', dep:'19:35', arr:'22:25', air:'아시아나', no:'OZ105 추정' } },
     { id:'g2', label:'비행기 2',
       out:{ date:'2026-11-13', from:'ICN', fromCity:'인천', to:'NRT', toCity:'나리타', dep:'09:00', arr:'11:20' },
       back:{ date:'2026-11-16', from:'NRT', fromCity:'나리타', to:'ICN', toCity:'인천', dep:'19:35', arr:'' } },
@@ -385,7 +385,7 @@ var TRIP = {
   /* 05 항공편 */
   function fcard(f,tag){
     if(!f) return '<div class="flight none">귀국편 미정</div>';
-    return '<div class="flight"><div class="tag"><span>'+tag+'</span><span class="mono">'+md(f.date)+'('+wk(f.date)+')</span></div><div class="route">'+
+    return '<div class="flight"><div class="tag"><span>'+tag+(f.air?' · <span style="color:var(--red)">'+esc(f.air)+(f.no?' '+esc(f.no):'')+'</span>':'')+'</span><span class="mono">'+md(f.date)+'('+wk(f.date)+')</span></div><div class="route">'+
       '<div class="port"><div class="code">'+f.from+'</div><div class="city">'+f.fromCity+'</div><div class="time">'+f.dep+'</div></div>'+
       '<div class="path">✈ '+dur(f.dep,f.arr)+'</div>'+
       '<div class="port"><div class="code">'+f.to+'</div><div class="city">'+f.toCity+'</div><div class="time">'+(f.arr||'—')+'</div></div></div>'+
@@ -395,7 +395,7 @@ var TRIP = {
     return '<div class="fgroup"><div class="fghead">'+g.label+' <span class="ppl">'+esc(g.people)+'</span></div><div class="flights">'+fcard(g.out,'출국편')+fcard(g.back,'귀국편')+'</div></div>';
   }).join('');
   document.getElementById('checks').innerHTML = [
-    '✈️ 항공편 시각은 확정 · 편명은 추후 추가 예정',
+    '✈️ 항공편 시각은 확정 · 비행기 1은 아시아나(출국 OZ102는 시각 일치 확인, 귀국편 번호는 추정) · 나머지 편명은 추후 추가 예정',
     '🌙 <b>비행기 3(프뉴) 귀국</b>은 11/16(월) 새벽 02:00 하네다 출발이라, 실제로는 11/15(일) 밤에 공항으로 나가야 해요.'
   ].map(function(t){return '<div class="pl">'+t+'</div>';}).join('');
 
