@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>라그친구들 도쿄여행</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=IBM+Plex+Mono:wght@600&display=swap">
+<style>
+  /* 레이아웃: 칠순여행 문서와 같은 860px 단일 컬럼 · 모든 섹션은 하단 TRIP 데이터 하나에서 생성 */
+  :root{
+    --navy:#16233f; --navy2:#243a63;
+    --gold:#9a6f08; --gold-bg:#fdf6e7; --gold-line:#f0d9a8;
+    --red:#c93a3a; --red-bg:#fdf1f1; --red-line:#f3d4d4;
+    --green:#1e6b3c; --green-bg:#eaf5ee; --green-line:#cde5d5;
+    --blue:#2b5aa7; --blue-bg:#edf3fc; --blue-line:#d4e2f5;
+    --ink:#22262e; --sub:#636a78; --faint:#848b9b; --line:#e3e6ee;
+    --bg:#f4f5f8; --card:#ffffff; --onnavy:#ffffff;
+    --f-body:"Noto Sans KR","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,sans-serif;
+    --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#3a5589; --navy2:#4a6aa5;
+      --gold:#e0b354; --gold-bg:#3a2f14; --gold-line:#5c4a1f;
+      --red:#e2726b; --red-bg:#3a2020; --red-line:#5c3030;
+      --green:#5fb883; --green-bg:#16311f; --green-line:#274a33;
+      --blue:#7fa8e0; --blue-bg:#1c2a42; --blue-line:#2c3f5c;
+      --ink:#eceef2; --sub:#a7adba; --faint:#7d8494; --line:#333a48;
+      --bg:#14181f; --card:#1b2029; --onnavy:#ffffff; color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#3a5589; --navy2:#4a6aa5;
+    --gold:#e0b354; --gold-bg:#3a2f14; --gold-line:#5c4a1f;
+    --red:#e2726b; --red-bg:#3a2020; --red-line:#5c3030;
+    --green:#5fb883; --green-bg:#16311f; --green-line:#274a33;
+    --blue:#7fa8e0; --blue-bg:#1c2a42; --blue-line:#2c3f5c;
+    --ink:#eceef2; --sub:#a7adba; --faint:#7d8494; --line:#333a48;
+    --bg:#14181f; --card:#1b2029; --onnavy:#ffffff; color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); line-height:1.6; font-family:var(--f-body);
+    padding-block:28px 64px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
+    overflow-x:hidden;
+  }
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg);}
+  .wrap{max-width:860px;margin:0 auto;}
+  .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums;}
+  button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+  header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:var(--onnavy);border-radius:20px;padding:30px 26px 26px;position:relative;overflow:hidden;}
+  header::after{content:"";position:absolute;right:-46px;top:-46px;width:200px;height:200px;border:22px solid rgba(255,255,255,.08);border-radius:50%;}
+  .eyebrow{display:inline-block;font-size:11.5px;letter-spacing:.12em;font-weight:700;background:var(--red);color:#fff;padding:4px 12px;border-radius:999px;margin-bottom:12px;}
+  header h1{font-size:26px;font-weight:800;margin:0;text-wrap:balance;}
+  header .dates{margin-top:6px;font-size:14.5px;opacity:.88;}
+  .badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+  .badge{font-size:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:5px 12px;border-radius:999px;}
+
+  .section-title{margin:32px 4px 14px;font-size:17px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px;}
+  :root:not([data-theme="light"]) .section-title{color:var(--ink);}
+  .section-title .no{font-size:11px;font-weight:800;color:#fff;background:var(--navy);border-radius:6px;padding:2px 7px;font-family:var(--f-mono);}
+  .section-title::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  /* 01 캘린더 */
+  .cal{display:grid;gap:6px;}
+  .cell{border-radius:10px;padding:9px 6px;text-align:center;border:1px solid var(--line);background:var(--card);min-width:0;}
+  .cell .d{font-size:13px;font-weight:800;}
+  .cell .w{font-size:10.5px;color:var(--sub);}
+  .cell .l{font-size:11px;font-weight:700;margin-top:4px;line-height:1.35;word-break:keep-all;}
+  .cell.move{background:var(--blue-bg);border-color:var(--blue-line);}.cell.move .l{color:var(--blue);}
+  .cell.plan{background:var(--green-bg);border-color:var(--green-line);}.cell.plan .l{color:var(--green);}
+  .cell.tbd{border-style:dashed;}.cell.tbd .l{color:var(--faint);}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:11.5px;color:var(--sub);}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  /* 체류 현황 (그룹별 일본 체류 막대) */
+  .stay{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:12px;}
+  .stay h3{margin:0 0 10px;font-size:13.5px;font-weight:800;}
+  .stay .sm{font-weight:500;color:var(--faint);font-size:11.5px;}
+  .stayrow{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;padding:5px 0;}
+  .stayrow+.stayrow{border-top:1px dashed var(--line);}
+  .stayname{font-size:12.5px;font-weight:800;min-width:0;word-break:keep-all;line-height:1.3;}
+  .stayname span{display:block;font-size:10.5px;font-weight:600;color:var(--faint);}
+  .track{position:relative;height:22px;background:var(--bg);border-radius:6px;}
+  .bar{position:absolute;top:3px;bottom:3px;border-radius:5px;background:var(--gold-bg);border:1px solid var(--gold);}
+  .bar.open{border-style:dashed;background:transparent;}
+  .ticks{display:grid;margin-left:120px;font-size:10px;color:var(--faint);margin-top:4px;}
+  .ticks span{text-align:center;}
+  @media (max-width:520px){.stayrow{grid-template-columns:76px 1fr}.ticks{margin-left:86px}}
+
+  /* 섹션 공통 카드 */
+  .card2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:12px;}
+  .card2 .name{font-size:16px;font-weight:800;}
+  .empty{font-size:13px;color:var(--faint);text-align:center;padding:26px 12px;background:var(--card);border:1px dashed var(--line);border-radius:16px;}
+  .empty b{color:var(--sub);}
+
+  /* 03 일자별 */
+  .datebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;gap:8px;overflow-x:auto;background:var(--bg);padding:10px 2px 12px;margin:0 0 10px;border-bottom:1px solid var(--line);scrollbar-width:none;}
+  .datebar::-webkit-scrollbar{display:none;}
+  .dbtn{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:13px;font-weight:800;color:var(--sub);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 15px;cursor:pointer;}
+  .dbtn span{font-size:10px;font-weight:600;color:var(--faint);}
+  .dbtn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .dbtn.active span{color:rgba(255,255,255,.78);}
+  .day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:12px;border-left:5px solid var(--line);scroll-margin-top:80px;}
+  .day.move{border-left-color:var(--blue);} .day.plan{border-left-color:var(--green);} .day.tbd{border-left-color:var(--faint);}
+  .dayhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+  .daydate{font-size:18px;font-weight:800;font-family:var(--f-mono);}
+  .dayweek{font-size:12.5px;color:var(--sub);}
+  .type{font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;margin-left:auto;}
+  .type.move{background:var(--blue-bg);color:var(--blue);}
+  .type.plan{background:var(--green-bg);color:var(--green);}
+  .type.tbd{background:var(--bg);color:var(--faint);border:1px dashed var(--line);}
+  .daysub{font-size:12.5px;color:var(--faint);margin-bottom:6px;}
+  .who{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px;}
+  .who span{font-size:11px;font-weight:700;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-line);border-radius:999px;padding:2px 9px;}
+  .slots{display:flex;flex-direction:column;gap:9px;position:relative;margin-top:10px;}
+  .slots::before{content:"";position:absolute;left:26px;top:8px;bottom:8px;width:2px;background:var(--line);}
+  .slot{display:flex;gap:12px;font-size:14px;align-items:baseline;position:relative;}
+  .slot .t{flex:0 0 54px;font-size:11.5px;font-weight:700;color:var(--sub);background:var(--bg);border-radius:6px;text-align:center;padding:2px 0;font-family:var(--f-mono);}
+  .slot .t .act{display:block;font-size:10px;color:var(--green);}
+  .slot .c{flex:1;min-width:0;}
+  .desc{display:block;font-size:12px;color:var(--faint);margin-top:2px;line-height:1.5;}
+  .slot.flight .c b{color:var(--blue);}
+  a.map{display:inline-block;font-size:10.5px;font-weight:700;color:var(--blue);background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:999px;padding:1px 9px;text-decoration:none;margin-left:4px;white-space:nowrap;}
+  .flag{display:inline-block;font-size:10.5px;font-weight:800;color:var(--red);background:var(--red-bg);border:1px solid var(--red-line);border-radius:999px;padding:0 8px;margin-left:4px;}
+
+  /* 05 항공편 */
+  .fgroup{margin-bottom:16px;}
+  .fghead{font-size:13.5px;font-weight:800;margin:0 4px 8px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+  .fghead .ppl{font-size:12px;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-line);border-radius:999px;padding:1px 10px;}
+  .flights{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media (max-width:700px){.flights{grid-template-columns:1fr;}}
+  .flight{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0;}
+  .flight.none{border-style:dashed;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:13px;min-height:112px;}
+  .flight .tag{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--sub);margin-bottom:10px;}
+  .route{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .port{text-align:center;}
+  .port .code{font-size:22px;font-weight:800;font-family:var(--f-mono);}
+  .port .city{font-size:11.5px;color:var(--sub);}
+  .port .time{font-size:14.5px;font-weight:700;font-family:var(--f-mono);}
+  .path{flex:1;text-align:center;color:var(--sub);font-size:11px;position:relative;padding:0 4px;font-family:var(--f-mono);}
+  .path::before{content:"";display:block;height:1.5px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 11px);margin-bottom:6px;}
+
+  .pending{background:var(--gold-bg);border:1px solid var(--gold-line);border-radius:14px;padding:12px 18px;font-size:13px;color:var(--ink);line-height:1.75;}
+  .pending .pl{padding:4px 0;}
+  .pending .pl+.pl{border-top:1px dashed var(--gold-line);}
+
+  table.ptab{width:100%;border-collapse:collapse;font-size:13px;}
+  table.ptab th{text-align:left;font-size:11.5px;color:var(--sub);font-weight:700;padding:6px;border-bottom:2px solid var(--line);white-space:nowrap;}
+  table.ptab td{padding:7px 6px;border-bottom:1px solid var(--line);white-space:nowrap;}
+  table.ptab td.mono{font-size:12px;}
+  .exp-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;}
+  .exp-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .exp-title{font-size:15px;font-weight:800;} .exp-total{font-size:15px;font-weight:800;font-family:var(--f-mono);}
+  table.exp{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.exp th{text-align:left;padding:6px;border-bottom:2px solid var(--line);color:var(--sub);font-weight:700;font-size:11.5px;white-space:nowrap;}
+  table.exp td{padding:6px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.exp .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  table.exp tr.total td{font-weight:800;border-top:2px solid var(--line);border-bottom:none;}
+  .exp-cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+  .exp-cat{font-size:12px;font-weight:700;background:var(--gold-bg);border:1px solid var(--gold-line);color:var(--gold);border-radius:999px;padding:4px 11px;}
+  .exp-note{font-size:11.5px;color:var(--faint);margin-top:8px;}
+  .baginfo{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+  .brow{display:flex;gap:10px;font-size:13px;align-items:baseline;}
+  .brow .bl{flex:0 0 44px;font-weight:800;color:var(--sub);font-size:12px;}
+  .fx{background:var(--gold-bg);border:1px solid var(--gold-line);border-radius:10px;padding:9px 13px;font-size:13px;color:var(--gold);font-weight:700;margin:8px 0 4px;}
+  footer{margin-top:30px;text-align:center;font-size:12px;color:var(--faint);}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">라그친구들</span>
+    <h1>도쿄여행</h1>
+    <div class="dates" id="hdates"></div>
+    <div class="badges" id="hbadges"></div>
+  </header>
+
+  <div class="section-title"><span class="no">01</span>여정 한눈에</div>
+  <div class="cal" id="cal"></div>
+  <div class="legend">
+    <span><i style="background:var(--blue-bg);border:1px solid var(--blue-line)"></i>이동(출국·귀국)</span>
+    <span><i style="background:var(--green-bg);border:1px solid var(--green-line)"></i>테마 정함</span>
+    <span><i style="border:1px dashed var(--faint)"></i>일정 미정</span>
+  </div>
+  <div class="stay">
+    <h3>그룹별 일본 체류 <span class="sm">— 도착 시각부터 출발 시각까지</span></h3>
+    <div id="stayrows"></div>
+    <div class="ticks" id="stayticks"></div>
+  </div>
+
+  <div class="section-title"><span class="no">02</span>동선 지도</div>
+  <div class="empty" id="mapempty"><b>방문지가 정해지면</b> 날짜별 실제 지도 위 동선이 여기에 표시됩니다</div>
+
+  <div class="section-title"><span class="no">03</span>일자별 일정</div>
+  <div class="datebar" id="datebar"></div>
+  <div id="days"></div>
+
+  <div class="section-title"><span class="no">04</span>지출내역</div>
+  <div id="exp"></div>
+
+  <div class="section-title"><span class="no">05</span>항공편</div>
+  <div id="flights"></div>
+  <div class="pending" id="checks"></div>
+
+  <div class="section-title"><span class="no">06</span>숙소 · 인원</div>
+  <div class="card2" id="staycard"></div>
+  <div class="card2" id="people"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+/* ── 데이터: 여기만 고치면 01~06 전체가 같이 바뀜 ───────────────── */
+var TRIP = {
+  title: '도쿄여행',
+  start: '2026-11-13', end: '2026-11-17',
+  written: '2026-10-21',
+  members: [
+    { nick:'염시아',      g:'g1' },
+    { nick:'백겨',       g:'g1' },
+    { nick:'메도',       g:'g1' },
+    { nick:'딜찍연착',   g:'g2' },
+    { nick:'프뉴',        g:'g3' }
+  ],
+  groups: [
+    { id:'g1', label:'비행기 1',
+      out:{ date:'2026-11-13', from:'ICN', fromCity:'인천', to:'NRT', toCity:'나리타', dep:'09:00', arr:'11:20' },
+      back:{ date:'2026-11-17', from:'NRT', fromCity:'나리타', to:'ICN', toCity:'인천', dep:'19:35', arr:'22:25' } },
+    { id:'g2', label:'비행기 2',
+      out:{ date:'2026-11-13', from:'ICN', fromCity:'인천', to:'NRT', toCity:'나리타', dep:'09:00', arr:'11:20' },
+      back:{ date:'2026-11-16', from:'NRT', fromCity:'나리타', to:'ICN', toCity:'인천', dep:'19:35', arr:'', check:'도착 시각 확인 필요' } },
+    { id:'g3', label:'비행기 3',
+      out:{ date:'2026-11-13', from:'ICN', fromCity:'인천', to:'HND', toCity:'하네다', dep:'22:40', arr:'22:50', check:'도착 시각 확인 필요' },
+      back:{ date:'2026-11-16', from:'HND', fromCity:'하네다', to:'ICN', toCity:'인천', dep:'02:00', arr:'04:50' } }
+  ],
+  /* 날짜별 일정. type: move(이동) · plan(확정) · tbd(미정) — 비행 슬롯은 groups에서 자동으로 들어감 */
+  stay: { name:'ROUTE25', addr:'4-chōme-5 Kitashinjuku, Shinjuku City, Tokyo 169-0074', area:'신주쿠구 기타신주쿠',
+    map:'https://maps.app.goo.gl/5syBu4Mg1Mqw5KWP8',
+    kind:'에어비앤비 · 집 전체', nights:4, checkin:'2026-11-13', checkout:'2026-11-17', beds:6, guests:6,
+    refund:'11/6(금) 16:00 전 취소 시 부분 환불' },
+  /* 지출: 원화 결제는 krw만, 엔화 결제는 jpy+krw */
+  expenses: [
+    { cat:'숙박', item:'에어비앤비 숙소 4박 (₩332,182×4박, 장기숙박 할인 −₩36,814)', paid:'2026-10-14', payer:'프뉴', krw:1291913, shared:true }
+  ],
+  /* 날짜별 일정. type: move(이동) · plan(테마 정함) · tbd(미정) — 비행 슬롯은 groups에서 자동으로 들어감 */
+  days: {
+    '2026-11-13': { type:'move', label:'도착 · 먹고 놀고 마시고', sub:'먹고 놀고 마시고 자고', slots:[] },
+    '2026-11-14': { type:'plan', label:'경호형 투어 · 후지산+에노시마+요코하마+도쿄타워',
+      sub:'경호형 투어 — 칠순여행 9/24 후지산 코스 + 도쿄타워 야경 · 렌트카 하루 코스 · 총 약 400km(순수 운전 약 7시간)',
+      fx:'🗻 야마나카호 → 5합목 → 아라쿠라야마 센겐공원 → 호토+커피 → 에노시마(신사·씨캔들·흰등대) → 요코하마 와카나(장어 저녁) → 오산바시(야경) → 도쿄타워(야경) → 숙소',
+      slots:[
+      { t:'06:00', c:'숙소(기타신주쿠) 출발 → 야마나카호', desc:'주오자동차도 경유 약 1시간40분~2시간 · 5명이라 렌트카 1대(7~8인승 권장)' },
+      { t:'07:05', c:'이시카와PA(휴게소) — 아침 간단히', desc:'칠순 때 실제 들른 곳 · 베이커리+매점 · ~07:10' },
+      { t:'08:00', c:'야마나카호 — 호숫가 산책·후지산 뷰', desc:'아사히가오카 호반 녹지공원 일대 · ~08:30',
+        links:[['📍 지도','https://www.google.com/maps/search/?api=1&query=35.4082705,138.8786942']] },
+      { t:'08:30', c:'야마나카호 출발 → 후지 스바루라인 (약 43km·1시간)', desc:'통행료 왕복 ¥2,800(≈₩24,400)' },
+      { t:'09:36', c:'후지산 미하라시 — 스바루라인 도중 전망 매점', desc:'오르는 길에 잠깐 정차' },
+      { t:'10:00', c:'후지 스바루라인 5합목 (해발 약 2,300m · 차로 갈 수 있는 최고 지점)',
+        desc:'11월 중순은 눈·노면 동결로 5합목 구간이 통제되거나 체인 규제가 걸릴 수 있음 — 당일 아침 통행 여부 확인 필수 · ~10:20',
+        links:[['📍 지도','https://maps.app.goo.gl/zf68DdkvDoyFbuQ28'],['🚧 5합목 안내','https://www.yamanashi-kankou.jp/special/fujisan/5th-station.html']] },
+      { t:'10:20', c:'하산 → 아라쿠라야마 센겐공원 (약 30~40분)' },
+      { t:'10:50', c:'아라쿠라야마 센겐공원 — 추레이토탑 너머 후지산 전망',
+        desc:'전망대까지 398계단 · 11월 중순은 가와구치코 일대 단풍 시즌이라 붐빌 수 있음 · ~11:00 · 점심 장소까지 도보 5분',
+        links:[['📍 지도','https://www.google.com/maps/search/?api=1&query=35.4889,138.8046']] },
+      { t:'11:10', c:'점심 — 호토후도 히가시코이지점 (야마나시 명물 호토 우동)',
+        desc:'영업 11:00~20:00, 브레이크타임 없음 · 칠순 때 6그릇 ¥7,920(≈₩69,000)',
+        links:[['📍 지도','https://maps.app.goo.gl/boNiWW1MLE51RCzj6'],['🍽 메뉴','http://www.houtou-fudou.jp/menu.html']] },
+      { t:'12:30', c:'커피 — 스타벅스 후지요시다점 (테라스 후지산 정면 뷰)', desc:'~13:50',
+        links:[['📍 지도','https://maps.app.goo.gl/h9MG2Zy2NDosDkqG6']] },
+      { t:'13:50', c:'후지요시다 출발 → 에노시마 (약 110~140km · 칠순 때 실제 2시간15분)' },
+      { t:'16:05', c:'에노시마 — 에노시마신사 · 씨캔들(전망등대) · 흰등대(쇼난항)',
+        desc:'11월 중순 일몰은 16:35경이라 도착하면 바로 흰등대(서쪽 방파제) 쪽으로 가는 게 노을 보기 좋음 · 씨캔들 승탑 1인 ¥800(≈₩7,000) · 참배길 오르막은 유료 에스컬레이터(에스카) 있음 · 저녁은 요코하마에서 먹으니 여기선 간식 정도만 · ~17:15',
+        links:[['📍 신사·씨캔들','https://www.google.com/maps/search/?api=1&query=35.2998,139.4802'],['📍 흰등대','https://www.google.com/maps/search/?api=1&query=35.29889,139.48806']] },
+      { t:'17:15', c:'에노시마 출발 → 요코하마 간나이 (약 35km · 1시간 안팎)' },
+      { t:'18:15', c:'저녁 — 와카나(割烹蒲焼わかな) 장어(우나기)', 
+        desc:'간나이역 도보 1분 · 1872년 창업 노포 · 요코하마시 나카구 미나토초 5-20 · 영업 11:00~21:00경(정기휴일·주말 시간은 전화 확인) · 토요일 저녁이라 예약 권장 ☎ 045-681-1404 · 주차는 주변 코인파킹 · ~19:30',
+        links:[['📍 지도','https://www.google.com/maps/search/?api=1&query=%E5%89%B2%E7%83%B9%E8%92%B2%E7%84%BC+%E3%82%8F%E3%81%8B%E3%81%AA+%E9%96%A2%E5%86%85']] },
+      { t:'19:30', c:'와카나 출발 → 오산바시 (약 2km · 10분)' },
+      { t:'19:40', c:'오산바시 부두(크루즈터미널 옥상) 야경', desc:'입장 무료 · 24시간 개방 · 요코하마 베이브릿지·미나토미라이 야경 · ~20:00',
+        links:[['📍 지도','https://maps.app.goo.gl/UqtfQuYmU9jCudRh7']] },
+      { t:'20:00', c:'오산바시 출발 → 도쿄타워 (수도고속 경유 약 30km · 40분 안팎)' },
+      { t:'20:40', c:'도쿄타워 — 전망대는 올라가지 않고 외부에서 야경 감상·사진',
+        desc:'라이트업은 자정(00:00)까지라 시간 여유 있음 · 구내주차장 이용(칠순 때 33분 ¥800 ≈ ₩7,000) · ~21:10',
+        links:[['📍 지도','https://www.google.com/maps/search/?api=1&query=35.6586,139.7454']] },
+      { t:'21:10', c:'도쿄타워 출발 → 숙소(기타신주쿠) (약 9km · 25분 안팎)' },
+      { t:'21:35', c:'숙소 도착 (예상)' }
+    ] },
+    '2026-11-15': { type:'plan', label:'쇼핑', sub:'쇼핑 시작', slots:[] },
+    '2026-11-16': { type:'move', label:'상문이형 귀국 · 히로 만남', sub:'상문이형 저녁 귀국(나리타 19:35) / 남은 인원은 히로 만나기', slots:[] },
+    '2026-11-17': { type:'move', label:'마무리 · 귀국', sub:'마무리 후 비행기 1 저녁 귀국', slots:[] }
+  }
+};
+
+/* ── 렌더링 ───────────────────────────────────────────── */
+(function(){
+  var W = ['일','월','화','수','목','금','토'];
+  function D(s){ var p=s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function md(s){ var d=D(s); return (d.getMonth()+1)+'/'+d.getDate(); }
+  function wk(s){ return W[D(s).getDay()]; }
+  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function mins(t){ var p=t.split(':'); return (+p[0])*60+(+p[1]); }
+  function dur(a,b){ if(!a||!b) return '—'; var m=mins(b)-mins(a); if(m<0) m+=1440; return Math.floor(m/60)+':'+('0'+(m%60)).slice(-2); }
+
+  var dates=[], d=D(TRIP.start), e=D(TRIP.end);
+  while(d<=e){ dates.push(d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)); d.setDate(d.getDate()+1); }
+  var nights = dates.length-1;
+  TRIP.groups.forEach(function(g){
+    g.members = TRIP.members.filter(function(m){return m.g===g.id;});
+    g.people = g.members.map(function(m){return m.nick;}).join('·');
+  });
+
+  /* 헤더 */
+  document.getElementById('hdates').textContent =
+    '2026년 '+md(TRIP.start).replace('/','월 ')+'일('+wk(TRIP.start)+') — '+md(TRIP.end).replace('/','월 ')+'일('+wk(TRIP.end)+') · '+nights+'박 '+dates.length+'일 · 도쿄';
+  var badges = ['👥 '+TRIP.members.length+'명','🏠 신주쿠 에어비앤비 4박','🗻 후지산 투어','✈️ 비행기 '+TRIP.groups.length+'개 그룹','🛬 나리타 · 하네다 도착','🍁 단풍 시즌'];
+  document.getElementById('hbadges').innerHTML = badges.map(function(b){return '<span class="badge">'+b+'</span>';}).join('');
+
+  /* 비행 슬롯을 날짜에 자동 배치 */
+  var flightSlots = {};
+  TRIP.groups.forEach(function(g){
+    [['out','출발','도착'],['back','출발','도착']].forEach(function(k){
+      var f=g[k[0]]; if(!f) return;
+      (flightSlots[f.date]=flightSlots[f.date]||[]).push({t:f.dep, html:'<b>'+esc(g.people)+'</b> '+f.fromCity+' 출발 → '+f.toCity+' '+(f.arr||'(시각 미정)')+' 도착'+(f.check?'<span class="flag">'+esc(f.check)+'</span>':''), flight:true});
+    });
+  });
+
+  /* 01 캘린더 */
+  var cal=document.getElementById('cal');
+  cal.style.gridTemplateColumns='repeat('+dates.length+',minmax(0,1fr))';
+  cal.innerHTML = dates.map(function(s,i){
+    var day=TRIP.days[s]||{type:'tbd',label:'일정 미정'};
+    return '<div class="cell '+day.type+'"><div class="d mono">'+md(s)+'</div><div class="w">'+wk(s)+'</div><div class="l">D'+(i+1)+'<br>'+esc(day.label)+'</div></div>';
+  }).join('');
+  if(window.matchMedia('(max-width:520px)').matches) cal.style.gridTemplateColumns='repeat(3,minmax(0,1fr))';
+
+  /* 01 체류 막대: 첫날 00:00 ~ 마지막날 24:00 을 100%로 */
+  var span = dates.length*1440;
+  function pos(date,time){ return ((D(date)-D(TRIP.start))/86400000*1440 + mins(time))/span*100; }
+  document.getElementById('stayrows').innerHTML = TRIP.groups.map(function(g){
+    var a=pos(g.out.date,g.out.arr), b=g.back?pos(g.back.date,g.back.dep):100;
+    var tip = md(g.out.date)+' '+g.out.arr+' 도착 → '+(g.back? md(g.back.date)+' '+g.back.dep+' 출발' : '귀국 미정');
+    return '<div class="stayrow"><div class="stayname">'+esc(g.people)+'<span>'+g.label+'</span></div>'+
+      '<div class="track" title="'+tip+'"><div class="bar'+(g.back?'':' open')+'" style="left:'+a.toFixed(2)+'%;width:'+(b-a).toFixed(2)+'%"></div></div></div>';
+  }).join('');
+  var tk=document.getElementById('stayticks');
+  tk.style.gridTemplateColumns='repeat('+dates.length+',1fr)';
+  tk.innerHTML=dates.map(function(s){return '<span class="mono">'+md(s)+'</span>';}).join('');
+
+  /* 03 일자별 */
+  document.getElementById('datebar').innerHTML = dates.map(function(s,i){
+    return '<button type="button" class="dbtn'+(i===0?' active':'')+'" data-target="day-'+(i+1)+'">'+md(s)+'<span>'+wk(s)+'·D'+(i+1)+'</span></button>';
+  }).join('');
+  document.getElementById('days').innerHTML = dates.map(function(s,i){
+    var day=TRIP.days[s]||{type:'tbd',label:'일정 미정',sub:'',slots:[]};
+    var here = TRIP.groups.filter(function(g){
+      var arr=pos(g.out.date,g.out.arr), dep=g.back?pos(g.back.date,g.back.dep):101;
+      var s0=pos(s,'00:00'), s1=pos(s,'23:59');
+      return arr<=s1 && dep>=s0;
+    }).map(function(g){return '<span>'+esc(g.people)+'</span>';}).join('');
+    var slots=(flightSlots[s]||[]).concat(day.slots||[]).sort(function(x,y){return mins(x.t)-mins(y.t);});
+    var body = slots.length ? '<div class="slots">'+slots.map(function(sl){
+        return '<div class="slot'+(sl.flight?' flight':'')+'"><span class="t">'+sl.t+(sl.actual?'<span class="act">실제 '+sl.actual+'</span>':'')+'</span><span class="c">'+(sl.html||esc(sl.c))+(sl.desc?'<span class="desc">'+esc(sl.desc)+'</span>':'')+(sl.links?sl.links.map(function(l){return '<a class="map" href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>';}).join(''):'')+'</span></div>';
+      }).join('')+'</div>'
+      : '<div class="desc" style="margin-top:8px">아직 정해진 일정이 없어요</div>';
+    var typeTxt={move:'이동',plan:'테마 정함',tbd:'미정'}[day.type];
+    return '<div class="day '+day.type+'" id="day-'+(i+1)+'"><div class="dayhead"><span class="daydate">'+md(s).replace('/','.')+'</span><span class="dayweek">'+wk(s)+'요일 · D'+(i+1)+'</span><span class="type '+day.type+'">'+typeTxt+'</span></div>'+
+      (day.sub?'<div class="daysub">'+esc(day.sub)+'</div>':'')+
+      (here?'<div class="who">'+here+'</div>':'')+(day.fx?'<div class="fx">'+esc(day.fx)+'</div>':'')+body+'</div>';
+  }).join('');
+  var dbtns=[].slice.call(document.querySelectorAll('#datebar .dbtn'));
+  dbtns.forEach(function(b){ b.addEventListener('click',function(){
+    dbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+    var el=document.getElementById(b.dataset.target);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  });});
+
+  /* 05 항공편 */
+  function fcard(f,tag){
+    if(!f) return '<div class="flight none">귀국편 미정</div>';
+    return '<div class="flight"><div class="tag"><span>'+tag+'</span><span class="mono">'+md(f.date)+'('+wk(f.date)+')</span></div><div class="route">'+
+      '<div class="port"><div class="code">'+f.from+'</div><div class="city">'+f.fromCity+'</div><div class="time">'+f.dep+'</div></div>'+
+      '<div class="path">✈ '+dur(f.dep,f.arr)+'</div>'+
+      '<div class="port"><div class="code">'+f.to+'</div><div class="city">'+f.toCity+'</div><div class="time">'+(f.arr||'—')+'</div></div></div>'+
+      (f.check?'<div class="desc" style="margin-top:8px;color:var(--red)">⚠ '+esc(f.check)+'</div>':'')+'</div>';
+  }
+  document.getElementById('flights').innerHTML = TRIP.groups.map(function(g){
+    return '<div class="fgroup"><div class="fghead">'+g.label+' <span class="ppl">'+esc(g.people)+'</span></div><div class="flights">'+fcard(g.out,'출국편')+fcard(g.back,'귀국편')+'</div></div>';
+  }).join('');
+  document.getElementById('checks').innerHTML = [
+    '⚠️ <b>비행기 3(프뉴) 출국</b> 인천 22:40 → 하네다 22:50 으로 소요 10분이 되어 맞지 않아요. 실제 도착 시각(보통 2시간 남짓 소요)을 확인해 주세요.',
+    '⚠️ <b>비행기 2(딜찍연착) 귀국</b> 11/16 나리타 19:35 출발의 인천 도착 시각이 아직 비어 있어요.',
+    '❓ <b>비행기 3(프뉴) 귀국</b>이 11/16(월) 02:00이면 월요일 히로 만남에 함께하지 못해요. 11/17(화) 새벽 02:00(월요일 밤 출발)이 맞는지 확인해 주세요.',
+    '🌙 <b>비행기 3 귀국</b>은 11/16(월) 새벽 02:00 하네다 출발이라, 실제로는 11/15(일) 밤에 공항으로 나가야 해요.'
+  ].map(function(t){return '<div class="pl">'+t+'</div>';}).join('');
+
+  /* 숙박비 1박 단위 분담: 그날 밤(d)에 이미 도착해 있고, 다음날 06:00 이후에 출발하는 사람만 그 밤을 묵은 것으로 계산 */
+  function stayShare(){
+    var st=TRIP.stay, cost=TRIP.expenses.filter(function(x){return x.cat==='숙박';}).reduce(function(a,x){return a+x.krw;},0);
+    var nightDates=dates.filter(function(dd){return D(dd)>=D(st.checkin) && D(dd)<D(st.checkout);});
+    var rows=TRIP.members.map(function(m){
+      var g=TRIP.groups.filter(function(x){return x.id===m.g;})[0];
+      var ns=nightDates.filter(function(dd,i){
+        var arrived = pos(g.out.date,g.out.arr)<=pos(dd,'23:59');
+        var nextMorning = pos(dd,'23:59')+ (6*60+1)/span*100;
+        var stays = !g.back || pos(g.back.date,g.back.dep) > nextMorning;
+        return arrived && stays;
+      });
+      return {m:m, n:ns.length, list:ns};
+    });
+    var pn=rows.reduce(function(a,r){return a+r.n;},0), per=cost/pn;
+    return '<div class="exp-card" style="margin-top:12px"><div class="exp-head"><div class="exp-title">숙박비 분담 (묵은 박수 기준)</div><div class="exp-total">1박당 '+won(per)+'</div></div>'+
+      '<div style="overflow-x:auto"><table class="exp"><tr><th>인원</th><th>묵는 밤</th><th class="num">박수</th><th class="num">분담액</th></tr>'+
+      rows.map(function(r){return '<tr><td><b>'+esc(r.m.nick)+'</b></td><td class="mono" style="font-size:11.5px">'+r.list.map(md).join(', ')+'</td><td class="num">'+r.n+'박</td><td class="num">'+won(per*r.n)+'</td></tr>';}).join('')+
+      '<tr class="total"><td colspan="2">합계</td><td class="num">'+pn+'박</td><td class="num">'+won(cost)+'</td></tr></table></div>'+
+      '<div class="exp-note">숙박비 '+won(cost)+' ÷ 총 '+pn+'인박 = 1인 1박당 '+won(per)+' · 묵는 밤은 항공편 도착·출발 시각으로 자동 계산(새벽 출발편은 전날 밤을 공항에서 보내는 것으로 봄) · 원 단위 반올림이라 합이 1~2원 다를 수 있음 · 프뉴 귀국편이 11/17 02:00으로 바뀌면 3박으로 자동 재계산</div></div>';
+  }
+  /* 04 지출 */
+  function won(n){ return '₩'+Math.round(n).toLocaleString('ko-KR'); }
+  var ex=TRIP.expenses, tot=ex.reduce(function(a,x){return a+x.krw;},0);
+  var shared=ex.filter(function(x){return x.shared;}).reduce(function(a,x){return a+x.krw;},0);
+  var n=TRIP.members.length;
+  var expHead = '<div class="exp-card"><div class="exp-head"><div class="exp-title">미리 결제한 비용</div><div class="exp-total">'+won(tot)+'</div></div>'+
+    '<div style="overflow-x:auto"><table class="exp"><tr><th>결제일</th><th>항목</th><th>분류</th><th>결제자</th><th class="num">금액</th></tr>'+
+    ex.map(function(x){return '<tr><td class="mono">'+md(x.paid)+'</td><td>'+esc(x.item)+'</td><td>'+esc(x.cat)+'</td><td>'+esc(x.payer)+'</td><td class="num">'+won(x.krw)+'</td></tr>';}).join('')+
+    '<tr class="total"><td colspan="4">합계</td><td class="num">'+won(tot)+'</td></tr></table></div>';
+  document.getElementById('exp').innerHTML = expHead+'</div>'+stayShare()+'<div class="exp-card" style="margin-top:12px"><div class="exp-note" style="margin:0">현지 지출은 영수증을 보내주시면 날짜별 탭으로 추가하고, 엔화 금액은 원화 환산을 함께 적습니다</div></div>';
+
+  /* 06 숙소 */
+  var st=TRIP.stay;
+  document.getElementById('staycard').innerHTML = '<div class="name">'+esc(st.name)+' <span style="font-size:12px;font-weight:600;color:var(--sub)">(숙소)</span></div>'+
+    '<div class="desc" style="font-size:13px">'+esc(st.addr)+'</div>'+
+    '<div class="baginfo"><div class="brow"><span class="bl">유형</span><span>'+esc(st.kind)+' · 침대 '+st.beds+'개 · 게스트 '+st.guests+'명</span></div>'+
+    '<div class="brow"><span class="bl">기간</span><span class="mono">'+md(st.checkin)+'('+wk(st.checkin)+') → '+md(st.checkout)+'('+wk(st.checkout)+') · '+st.nights+'박</span></div>'+
+    '<div class="brow"><span class="bl">취소</span><span>'+esc(st.refund)+'</span></div></div>'+
+    '<div style="margin-top:8px"><span class="who" style="display:inline-flex;margin:0"><span>'+esc(st.area)+'</span></span><a class="map" href="'+st.map+'" target="_blank" rel="noopener">📍 지도</a></div>';
+  document.getElementById('mapempty').innerHTML = '<b>숙소는 신주쿠 기타신주쿠(ROUTE25)</b> · 날짜별 방문지가 정해지면 실제 지도 위 동선이 여기에 표시됩니다 <a class="map" href="'+st.map+'" target="_blank" rel="noopener">📍 숙소 지도</a>';
+
+  /* 06 인원 */
+  document.getElementById('people').innerHTML = '<div class="name" style="margin-bottom:10px">인원 '+TRIP.members.length+'명</div>'+
+    '<div style="overflow-x:auto"><table class="ptab"><tr><th>닉네임</th><th>항공편</th></tr>'+
+    TRIP.members.map(function(m){
+      var g=TRIP.groups.filter(function(x){return x.id===m.g;})[0];
+      return '<tr><td><b>'+esc(m.nick)+'</b></td><td>'+g.label+'</td></tr>';
+    }).join('')+'</table></div>';
+  document.getElementById('foot').textContent = '라그친구들 도쿄여행 · 2026.11.13–17 · 작성 '+TRIP.written;
+})();
+</script>
+
+</body>
+</html>
