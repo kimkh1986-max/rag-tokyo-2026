@@ -252,7 +252,8 @@ var TRIP = {
   ],
   /* 날짜별 일정. type: move(이동) · plan(테마 정함) · tbd(미정) — 비행 슬롯은 groups에서 자동으로 들어감 */
   days: {
-    '2026-11-13': { type:'move', label:'도착 · 먹고 놀고 마시고', sub:'먹고 놀고 마시고 자고', slots:[] },
+    '2026-11-13': { type:'move', label:'도착 · 렌트 · 먹고 놀고 마시고', sub:'먹고 놀고 마시고 자고',
+      fx:'🚗 렌트카 픽업 — 시간·장소 미정 (토요일 후지산 투어용 · 5명이라 7~8인승 권장)', slots:[] },
     '2026-11-14': { type:'plan', label:'경호형 투어 · 후지산+에노시마+요코하마+도쿄타워',
       sub:'경호형 투어 — 칠순여행 9/24 후지산 코스 + 도쿄타워 야경 · 렌트카 하루 코스 · 총 약 400km(순수 운전 약 7시간)',
       fx:'🗻 야마나카호 → 5합목 → 아라쿠라야마 센겐공원 → 호토+커피 → 에노시마(신사·씨캔들·흰등대) → 요코하마 와카나(장어 저녁) → 오산바시(야경) → 도쿄타워(야경) → 숙소',
@@ -320,7 +321,7 @@ var TRIP = {
   /* 헤더 */
   document.getElementById('hdates').textContent =
     '2026년 '+md(TRIP.start).replace('/','월 ')+'일('+wk(TRIP.start)+') — '+md(TRIP.end).replace('/','월 ')+'일('+wk(TRIP.end)+') · '+nights+'박 '+dates.length+'일 · 도쿄';
-  var badges = ['👥 '+TRIP.members.length+'명','🏠 신주쿠 에어비앤비 4박','🗻 후지산 투어','✈️ 비행기 '+TRIP.groups.length+'개 그룹','🛬 나리타 · 하네다 도착','🍁 단풍 시즌'];
+  var badges = ['👥 '+TRIP.members.length+'명','🏠 신주쿠 에어비앤비 4박','🚗 렌트카','🗻 후지산 투어','✈️ 비행기 '+TRIP.groups.length+'개 그룹','🛬 나리타 · 하네다 도착','🍁 단풍 시즌'];
   document.getElementById('hbadges').innerHTML = badges.map(function(b){return '<span class="badge">'+b+'</span>';}).join('');
 
   /* 비행 슬롯을 날짜에 자동 배치 */
@@ -328,9 +329,17 @@ var TRIP = {
   TRIP.groups.forEach(function(g){
     [['out','출발','도착'],['back','출발','도착']].forEach(function(k){
       var f=g[k[0]]; if(!f) return;
-      (flightSlots[f.date]=flightSlots[f.date]||[]).push({t:f.dep, html:'<b>'+esc(g.people)+'</b> '+f.fromCity+' 출발 → '+f.toCity+' '+(f.arr||'(시각 미정)')+' 도착'+(f.check?'<span class="flag">'+esc(f.check)+'</span>':''), flight:true});
+      /* 같은 날·같은 구간·같은 출발시각이면 한 줄로 합침 */
+      var key=f.date+'|'+f.from+'|'+f.to+'|'+f.dep;
+      var hit=(flightSlots[f.date]=flightSlots[f.date]||[]).filter(function(x){return x.key===key;})[0];
+      if(hit){ hit.ppl.push(g.people); if(!hit.f.arr&&f.arr) hit.f=f; }
+      else flightSlots[f.date].push({key:key, t:f.dep, f:f, ppl:[g.people], flight:true});
     });
   });
+  Object.keys(flightSlots).forEach(function(d){ flightSlots[d].forEach(function(x){
+    var f=x.f;
+    x.html='<b>'+x.ppl.map(esc).join(' · ')+'</b> '+f.fromCity+' 출발 → '+f.toCity+' '+(f.arr||'(시각 미정)')+' 도착'+(f.no?' <span class="desc" style="display:inline">'+esc(f.air||'')+' '+esc(f.no)+'</span>':'');
+  }); });
 
   /* 01 캘린더 */
   var cal=document.getElementById('cal');
